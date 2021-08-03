@@ -1,0 +1,5 @@
+name: AdnapMiniGames
+version: 1.0
+author: MarnikM
+main: com.adnapstudios.adnapminigames.AdnapMiniGames
+api-version: 1.17
