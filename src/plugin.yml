@@ -5,4 +5,4 @@ main: com.adnapstudios.adnapminigames.AdnapMiniGames
 api-version: 1.17
 commands:
   shop:
-    description: Opens a test GUI
+    description: Opens a shop

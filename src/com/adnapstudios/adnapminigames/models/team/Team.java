@@ -1,4 +1,4 @@
-package com.adnapstudios.adnapminigames.models;
+package com.adnapstudios.adnapminigames.models.team;
 
 import org.bukkit.Color;
 import org.bukkit.entity.Player;
@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 
 public class Team {
+    private int id;
+    private int gameId;
     private String name;
     private Color color;
     private TeamStatus status;
@@ -17,6 +19,22 @@ public class Team {
         this.name = name;
         this.color = color;
         this.players = players;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 
     public String getName() {

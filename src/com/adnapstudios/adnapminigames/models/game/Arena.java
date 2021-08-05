@@ -1,4 +1,4 @@
-package com.adnapstudios.adnapminigames.models;
+package com.adnapstudios.adnapminigames.models.game;
 
 import org.bukkit.World;
 

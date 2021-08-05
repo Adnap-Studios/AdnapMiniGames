@@ -1,11 +1,10 @@
-package com.adnapstudios.adnapminigames.models;
+package com.adnapstudios.adnapminigames.models.game;
 
 public class Game {
     private int id;
     private Arena arena;
     private GameType gameType;
     private GameStatus gameStatus;
-    private TeamManager teamManager;
 
     public Game(int id, Arena arena, GameType gameType) {
         this.id = id;
@@ -41,15 +40,7 @@ public class Game {
         this.gameStatus = gameStatus;
     }
 
-    public void setTeamManager(TeamManager teamManager) {
-        this.teamManager = teamManager;
-    }
-
     public void setArena(Arena arena) {
         this.arena = arena;
-    }
-
-    public TeamManager getTeamManager() {
-        return teamManager;
     }
 }

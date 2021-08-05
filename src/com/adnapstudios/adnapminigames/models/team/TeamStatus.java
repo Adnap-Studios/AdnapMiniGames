@@ -1,4 +1,4 @@
-package com.adnapstudios.adnapminigames.models;
+package com.adnapstudios.adnapminigames.models.team;
 
 public enum TeamStatus {
     ALIVE,

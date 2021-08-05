@@ -1,4 +1,4 @@
-package com.adnapstudios.adnapminigames.models;
+package com.adnapstudios.adnapminigames.models.team;
 
 import java.util.ArrayList;
 
@@ -15,5 +15,15 @@ public class TeamManager {
 
     public void setTeams(ArrayList<Team> teams) {
         this.teams = teams;
+    }
+
+    public void addTeam(Team team) {
+        this.teams.add(team);
+    }
+
+    public void addTeams(ArrayList<Team> teams) {
+        for (Team newTeam : teams) {
+            addTeam(newTeam);
+        }
     }
 }
