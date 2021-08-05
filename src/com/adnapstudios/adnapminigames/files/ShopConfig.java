@@ -8,9 +8,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,6 +28,19 @@ public class ShopConfig {
         if (!file.exists()) {
             try {
                 file.createNewFile();
+
+                // Download default shop
+                String shopConfigString = AdnapMiniGames.getPlugin(AdnapMiniGames.class)
+                        .getConfig().getString("shop-config-url");
+                URL shopConfig = new URL(shopConfigString);
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(shopConfig.openStream()));
+                FileWriter out = new FileWriter(file);
+                String inputLine;
+                while ((inputLine = in.readLine()) != null)
+                    out.write(inputLine + "\n");
+                in.close();
+                out.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
