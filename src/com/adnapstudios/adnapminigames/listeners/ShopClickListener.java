@@ -21,6 +21,10 @@ public class ShopClickListener implements Listener {
         Inventory next = null;
         ShopItem item = null;
 
+        if (inventoryClickEvent.getCurrentItem() == null) {
+            return;
+        }
+
         String itemName = inventoryClickEvent.getCurrentItem()
                 .getItemMeta().getDisplayName();
 
@@ -55,7 +59,5 @@ public class ShopClickListener implements Listener {
         if (item != null) {
             PaymentGateway.payment(player, item);
         }
-
-        inventoryClickEvent.setCancelled(true);
     }
 }
