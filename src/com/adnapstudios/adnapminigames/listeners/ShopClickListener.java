@@ -58,6 +58,7 @@ public class ShopClickListener implements Listener {
 
         if (item != null) {
             PaymentGateway.payment(player, item);
+            inventoryClickEvent.setCancelled(true);
         }
     }
 }
