@@ -2,6 +2,7 @@ package com.adnapstudios.adnapminigames.listeners;
 
 import com.adnapstudios.adnapminigames.files.ShopConfig;
 import com.adnapstudios.adnapminigames.models.utils.GameShop;
+import com.adnapstudios.adnapminigames.models.utils.PaymentGateway;
 import com.adnapstudios.adnapminigames.models.utils.ShopItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +19,7 @@ public class ShopClickListener implements Listener {
         String title = inventoryClickEvent.getView().getTitle();
 
         Inventory next = null;
-        ItemStack item = null;
+        ShopItem item = null;
 
         String itemName = inventoryClickEvent.getCurrentItem()
                 .getItemMeta().getDisplayName();
@@ -47,12 +48,12 @@ public class ShopClickListener implements Listener {
 
         for (ShopItem shopItem : ShopConfig.getAllShopItems()) {
             if (itemName.equalsIgnoreCase(shopItem.getDisplayName())) {
-                item = shopItem.getItemStack();
+                item = shopItem;
             }
         }
 
         if (item != null) {
-            player.getInventory().addItem(item);
+            PaymentGateway.payment(player, item);
         }
 
         inventoryClickEvent.setCancelled(true);
