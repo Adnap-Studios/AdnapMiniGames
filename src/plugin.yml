@@ -10,3 +10,9 @@ commands:
     description: Gives a Shopkeeper Spawn Egg
   removeshopkeeper:
     description: Removes the nearby shopkeeper
+  pos1:
+    description: Sets pos1
+  pos2:
+    description: Sets pos2
+  arena:
+    description: Arena configuration

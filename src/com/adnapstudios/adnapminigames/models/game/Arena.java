@@ -1,20 +1,25 @@
 package com.adnapstudios.adnapminigames.models.game;
 
+import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 public class Arena {
     private int id;
     private String name;
     private World world;
-    private int pos1;
-    private int pos2;
+    private Location pos1;
+    private Location pos2;
 
-    public Arena(int id, String name, World world, int pos1, int pos2) {
-        this.id = id;
+    public Arena(String name, World world, Location pos1, Location pos2) {
         this.name = name;
         this.world = world;
         this.pos1 = pos1;
         this.pos2 = pos2;
+    }
+
+    public Arena() {
+
     }
 
     public int getId() {
@@ -41,19 +46,45 @@ public class Arena {
         this.world = world;
     }
 
-    public int getPos1() {
+    public Location getPos1() {
         return pos1;
     }
 
-    public void setPos1(int pos1) {
+    public void setPos1(Location pos1) {
         this.pos1 = pos1;
     }
 
-    public int getPos2() {
+    public Location getPos2() {
         return pos2;
     }
 
-    public void setPos2(int pos2) {
+    public void setPos2(Location pos2) {
         this.pos2 = pos2;
+    }
+
+    public boolean isPlayerInArena(Player player) {
+        if (player.getLocation().getX() >= Math.min(pos1.getX(), pos2.getX()) &&
+                player.getLocation().getY() >= Math.min(pos1.getY(), pos2.getY())) {
+            if (player.getLocation().getX() <= Math.max(pos1.getX(), pos2.getX()) &&
+                    player.getLocation().getY() <= Math.max(pos1.getY(), pos2.getY())) {
+                return true;
+            }
+        }
+
+        return false;
+        /*
+
+                if((player.getLocation().getBlockX() > pos1.getBlockX()) && (player.getLocation().getBlockX() < pos2.getBlockX())){
+            if((player.getLocation().getBlockY() > pos1.getBlockY()) && (player.getLocation().getBlockY() < pos2.getBlockY())){
+                if((player.getLocation().getBlockZ() > pos1.getBlockZ()) && (player.getLocation().getBlockZ() < pos2.getBlockZ())){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+         */
     }
 }

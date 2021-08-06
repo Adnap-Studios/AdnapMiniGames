@@ -1,8 +1,8 @@
 package com.adnapstudios.adnapminigames.listeners;
 
+import com.adnapstudios.adnapminigames.AdnapMiniGames;
+import com.adnapstudios.adnapminigames.models.game.Arena;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,16 +17,16 @@ public class TestEvents implements Listener {
         player.sendMessage(ChatColor.GREEN + player.getDisplayName() + ", welcome to the server!");
     }
 
-    @EventHandler
+    /*@EventHandler
     public static void onPlayerWalk(PlayerMoveEvent playerMoveEvent) {
         Player player = playerMoveEvent.getPlayer();
-        Location location = player.getLocation();
-        location.setY(location.getY() - 1);
 
-        Material block = player.getWorld().getBlockAt(location).getType();
-
-        if (block == Material.STONE) {
-            player.sendMessage("Block Type: " + ChatColor.YELLOW + "You are walking on stone.");
+        for (Arena arena : AdnapMiniGames.gameManager.getArenas()) {
+            if (arena.isPlayerInArena(player)) {
+                player.sendMessage("IN ARENA");
+            } else {
+                player.sendMessage("OUT ARENA");
+            }
         }
-    }
+    }*/
 }
