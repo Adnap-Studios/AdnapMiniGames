@@ -4,12 +4,14 @@ import com.adnapstudios.adnapminigames.AdnapMiniGames;
 import com.adnapstudios.adnapminigames.models.utils.ShopItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
 
+import java.awt.*;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,18 +99,45 @@ public class ShopConfig {
         for (HashMap<String, Object> item : list) {
             if (item.get("menu-item").equals(menuItem)) {
                 ShopItem shopItem = new ShopItem();
-                shopItem.setMaterial(Material.valueOf((String) item.get("material")));
+                if (item.get("armor-set") != null && (boolean) item.get("armor-set")) {
+                    String material = (String) item.get("material");
+                    shopItem.setArmor(true);
+                    shopItem.setMaterial(Material.valueOf(material + "_CHESTPLATE"));
+                    ArrayList<ItemStack> set = new ArrayList<>();
+                    String[] armor = {"_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS"};
+                    for (String armorItem : armor) {
+                        String armorMaterial = material;
+                        ShopItem armorSet = new ShopItem();
+                        armorSet.setMaterial(Material.valueOf(armorMaterial + armorItem));
+                        set.add(armorSet.getItemStack());
+                    }
+                    shopItem.setArmor(set);
+                } else {
+                    shopItem.setMaterial(Material.valueOf((String) item.get("material")));
+                }
                 shopItem.setDisplayName((String) item.get("displayName"));
                 shopItem.setSlot((int) item.get("slot"));
                 shopItem.setLore((String) item.get("lore"));
                 shopItem.setAmount((int) item.get("amount"));
                 shopItem.setPrice((int) item.get("cost"));
                 shopItem.setCurrency(Material.valueOf((String) item.get("currency")));
+                if (item.get("enchantments") != null) { convertEnchantments(shopItem, (String) item.get("enchantments")); }
                 shopItems.add(shopItem);
             }
         }
 
         return shopItems;
+    }
+
+    private static void convertEnchantments(ShopItem shopItem, String enchantments) {
+        String cleanString = enchantments.replace(" ", "");
+        String[] stringEnchantments = cleanString.split(",");
+        for (String enchantment : stringEnchantments) {
+            String[] splittedEnchantment = enchantment.split(":");
+            int level = Integer.parseInt(splittedEnchantment[1]);
+            Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(splittedEnchantment[0]));
+            shopItem.addEnchantment(enchant, level);
+        }
     }
 
     public static ArrayList<ShopItem> getAllShopItems() {

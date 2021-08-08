@@ -11,6 +11,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 public class ShopClickListener implements Listener {
 
     @EventHandler
@@ -18,6 +20,7 @@ public class ShopClickListener implements Listener {
         Player player = (Player) inventoryClickEvent.getWhoClicked();
         String title = inventoryClickEvent.getView().getTitle();
 
+        boolean isShopWindow = false;
         Inventory next = null;
         ShopItem item = null;
 
@@ -25,8 +28,8 @@ public class ShopClickListener implements Listener {
             return;
         }
 
-        String itemName = inventoryClickEvent.getCurrentItem()
-                .getItemMeta().getDisplayName();
+        ItemStack clickedItem = inventoryClickEvent.getCurrentItem();
+        String itemName = clickedItem.getItemMeta().getDisplayName();
 
         // TODO Check if Player is in game
         if (itemName.equalsIgnoreCase("Back to Main Menu")) {
@@ -36,6 +39,7 @@ public class ShopClickListener implements Listener {
             return;
         } else {
             for (String displayName : ShopConfig.getAllMenuItemsDisplayNames()) {
+                if (title.equalsIgnoreCase(displayName)) isShopWindow = true;
                 if (itemName.equalsIgnoreCase(displayName)) {
                     next = GameShop.shopMenu(player, itemName);
                     break;
@@ -51,8 +55,15 @@ public class ShopClickListener implements Listener {
         }
 
         for (ShopItem shopItem : ShopConfig.getAllShopItems()) {
-            if (itemName.equalsIgnoreCase(shopItem.getDisplayName())) {
-                item = shopItem;
+            List<String> lores = clickedItem.getItemMeta().getLore();
+            assert lores != null;
+            if (lores.get(0) != null) {
+                if (lores.get(0).equalsIgnoreCase("Shop Item")) {
+                    if (shopItem.getDisplayName().equalsIgnoreCase(itemName)) {
+                        item = shopItem;
+                        break;
+                    }
+                }
             }
         }
 
@@ -60,5 +71,8 @@ public class ShopClickListener implements Listener {
             PaymentGateway.payment(player, item);
             inventoryClickEvent.setCancelled(true);
         }
+
+        if (isShopWindow) inventoryClickEvent.setCancelled(true);
+
     }
 }

@@ -81,7 +81,7 @@ public class GameShop {
             shopItem.setSlot(slot);
 
             if (shopItem.getDisplayName().equalsIgnoreCase(currentMenu)) {
-                shopItem.setEnchantment(Enchantment.MENDING);
+                shopItem.addEnchantment(Enchantment.MENDING, 1);
                 shopItem.setItemFlag(ItemFlag.HIDE_ENCHANTS);
             }
 

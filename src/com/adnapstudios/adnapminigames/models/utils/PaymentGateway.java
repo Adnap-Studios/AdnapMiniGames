@@ -14,9 +14,19 @@ public class PaymentGateway {
             paymentItem.setAmount(price);
 
             player.getInventory().removeItem(paymentItem);
-            player.getInventory().addItem(shopItem.getItemStack());
+
+            if (shopItem.isArmor()) {
+                for (ItemStack armor : shopItem.getArmor()) {
+                    player.getInventory().addItem(armor);
+                }
+            } else {
+                player.getInventory().addItem(shopItem.getItem());
+            }
+
+            String itemName = shopItem.getDisplayName();
+            if (itemName.equalsIgnoreCase("")) itemName = shopItem.getMaterial().name();
             player.sendMessage("You bought " + ChatColor.LIGHT_PURPLE
-                    + shopItem.getDisplayName() + ChatColor.RESET + " for "
+                    + itemName + ChatColor.RESET + " for "
                     + ChatColor.LIGHT_PURPLE + shopItem.getPrice() + " " + shopItem.getCurrency().name());
         }
     }
