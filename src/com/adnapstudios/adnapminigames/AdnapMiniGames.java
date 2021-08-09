@@ -5,13 +5,16 @@ import com.adnapstudios.adnapminigames.files.ShopConfig;
 import com.adnapstudios.adnapminigames.listeners.ShopClickListener;
 import com.adnapstudios.adnapminigames.listeners.ShopkeeperListener;
 import com.adnapstudios.adnapminigames.listeners.TestEvents;
-import com.adnapstudios.adnapminigames.models.game.Game;
 import com.adnapstudios.adnapminigames.models.game.GameManager;
+import com.adnapstudios.adnapminigames.models.utils.DatabaseManager;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.sql.SQLException;
+
 public class AdnapMiniGames extends JavaPlugin {
     public static GameManager gameManager;
+    public static DatabaseManager databaseManager;
 
     @Override
     public void onEnable() {
@@ -20,8 +23,20 @@ public class AdnapMiniGames extends JavaPlugin {
         ShopConfig.setup();
         ShopConfig.get().options().copyDefaults(true);
 
-        // GameManager & TeamManager
+        // GameManager, TeamManager and DatabaseManager
         gameManager = new GameManager();
+        databaseManager = new DatabaseManager();
+
+        try {
+            databaseManager.readConfig();
+            databaseManager.connect();
+            databaseManager.createTables();
+        } catch (SQLException e) {
+            System.out.println("Database not connected!");
+            System.out.println(e);
+        }
+
+        if (databaseManager.isConnected()) System.out.println("Database is connected!");
 
         // Listeners
         getServer().getPluginManager().registerEvents(new TestEvents(), this);
@@ -44,6 +59,7 @@ public class AdnapMiniGames extends JavaPlugin {
     @Override
     public void onDisable() {
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "[AdnapMiniGames] Plugin is disabled!");
+        databaseManager.close();
     }
 
     public void loadConfig() {
