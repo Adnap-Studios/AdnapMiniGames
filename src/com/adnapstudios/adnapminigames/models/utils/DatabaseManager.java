@@ -53,10 +53,9 @@ public class DatabaseManager {
             Statement statement;
 
             String arenas = "CREATE TABLE IF NOT EXISTS amg_arenas (" +
-                    "id INT(100) NOT NULL AUTO_INCREMENT," +
-                    "name VARCHAR(255) CHARACTER SET ascii COLLATE ascii_bin NOT NULL," +
-                    "world VARCHAR(255) CHARACTER SET ascii COLLATE ascii_bin NOT NULL," +
-                    "teams_of INT(2) NOT NULL," +
+                    "id INT NOT NULL AUTO_INCREMENT," +
+                    "name VARCHAR(100) NOT NULL," +
+                    "world VARCHAR(100) NOT NULL," +
                     "pos1_x FLOAT NOT NULL," +
                     "pos1_y FLOAT NOT NULL," +
                     "pos1_z FLOAT NOT NULL," +
@@ -66,9 +65,15 @@ public class DatabaseManager {
                     "lobby_x FLOAT NOT NULL," +
                     "lobby_z FLOAT NOT NULL," +
                     "lobby_y FLOAT NOT NULL," +
+                    "lobby_dir_x FLOAT NOT NULL," +
+                    "lobby_dir_z FLOAT NOT NULL," +
+                    "lobby_dir_y FLOAT NOT NULL," +
                     "spec_x FLOAT NOT NULL," +
                     "spec_y FLOAT NOT NULL," +
                     "spec_z FLOAT NOT NULL," +
+                    "spec_dir_x FLOAT NOT NULL," +
+                    "spec_dir_y FLOAT NOT NULL," +
+                    "spec_dir_z FLOAT NOT NULL," +
                     "PRIMARY KEY (id)" +
                     ");";
 
