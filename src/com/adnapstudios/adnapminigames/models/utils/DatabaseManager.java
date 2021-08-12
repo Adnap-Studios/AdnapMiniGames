@@ -62,18 +62,18 @@ public class DatabaseManager {
                     "pos2_x FLOAT NOT NULL," +
                     "pos2_y FLOAT NOT NULL," +
                     "pos2_z FLOAT NOT NULL," +
-                    "lobby_x FLOAT NOT NULL," +
-                    "lobby_z FLOAT NOT NULL," +
-                    "lobby_y FLOAT NOT NULL," +
-                    "lobby_dir_x FLOAT NOT NULL," +
-                    "lobby_dir_z FLOAT NOT NULL," +
-                    "lobby_dir_y FLOAT NOT NULL," +
-                    "spec_x FLOAT NOT NULL," +
-                    "spec_y FLOAT NOT NULL," +
-                    "spec_z FLOAT NOT NULL," +
-                    "spec_dir_x FLOAT NOT NULL," +
-                    "spec_dir_y FLOAT NOT NULL," +
-                    "spec_dir_z FLOAT NOT NULL," +
+                    "lobby_x FLOAT," +
+                    "lobby_z FLOAT," +
+                    "lobby_y FLOAT," +
+                    "lobby_dir_x FLOAT," +
+                    "lobby_dir_z FLOAT," +
+                    "lobby_dir_y FLOAT," +
+                    "spec_x FLOAT," +
+                    "spec_y FLOAT," +
+                    "spec_z FLOAT," +
+                    "spec_dir_x FLOAT," +
+                    "spec_dir_y FLOAT," +
+                    "spec_dir_z FLOAT," +
                     "PRIMARY KEY (id)" +
                     ");";
 
