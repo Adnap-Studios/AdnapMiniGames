@@ -83,8 +83,8 @@ public class DatabaseManager {
             String games = "CREATE TABLE IF NOT EXISTS amg_games (" +
                     "id INT NOT NULL AUTO_INCREMENT," +
                     "arena_id INT NOT NULL," +
-                    "game_type INT NOT NULL," +
-                    "game_status INT NOT NULL," +
+                    "game_type VARCHAR(100) NOT NULL," +
+                    "game_status VARCHAR(100) NOT NULL," +
                     "PRIMARY KEY (id)" +
                     ");";
 
@@ -92,18 +92,39 @@ public class DatabaseManager {
             statement.executeUpdate(games);
 
             String players = "CREATE TABLE IF NOT EXISTS amg_players (" +
-                    "uuid VARCHAR(255) NOT NULL," +
-                    "username VARCHAR(255) NOT NULL," +
+                    "uuid VARCHAR(100) NOT NULL," +
+                    "username VARCHAR(100) NOT NULL," +
                     "game_id INT NOT NULL," +
                     "iron INT NOT NULL," +
                     "gold INT NOT NULL," +
                     "diamond INT NOT NULL," +
                     "emerald INT NOT NULL," +
+                    "games INT NOT NULL," +
+                    "wins INT NOT NULL," +
+                    "loses INT NOT NULL," +
+                    "kills INT NOT NULL," +
+                    "deaths INT NOT NULL," +
+                    "assists INT NOT NULL," +
+                    "points INT NOT NULL," +
                     "PRIMARY KEY (uuid)" +
                     ");";
 
             statement = connection.createStatement();
             statement.executeUpdate(players);
+
+            String config = "CREATE TABLE IF NOT EXISTS NOT amg_config (" +
+                    "world VARCHAR(100) NOT NULL," +
+                    "spawn_x FLOAT NOT NULL," +
+                    "spawn_y FLOAT NOT NULL," +
+                    "spawn_z FLOAT NOT NULL," +
+                    "spawn_dir_x FLOAT NOT NULL," +
+                    "spawn_dir_y FLOAT NOT NULL," +
+                    "spawn_dir_z FLOAT NOT NULL," +
+                    "PRIMARY KEY (`world`,`spawn_x`,`spawn_y`,`spawn_z`,`spawn_dir_x`,`spawn_dir_y`,`spawn_dir_z`)" +
+                    ");";
+
+            statement = connection.createStatement();
+            statement.executeUpdate(config);
 
         } catch (SQLException e) {
             System.out.println(e);
