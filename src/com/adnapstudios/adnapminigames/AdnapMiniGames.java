@@ -49,7 +49,7 @@ public class AdnapMiniGames extends JavaPlugin {
         getCommand("removeshopkeeper").setExecutor(new RemoveShopkeeperCommand());
         getCommand("pos1").setExecutor(new Pos1Command());
         getCommand("pos2").setExecutor(new Pos2Command());
-        getCommand("arena").setExecutor(new CreateArenaCommand());
+        getCommand("arena").setExecutor(new ArenaCommand());
 
 
         // Plugin Enabled
