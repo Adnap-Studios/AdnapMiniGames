@@ -10,6 +10,8 @@ public class Arena {
     private World world;
     private Location pos1;
     private Location pos2;
+    private Location lobby;
+    private Location spectator;
 
     public Arena(String name, World world, Location pos1, Location pos2) {
         this.name = name;
@@ -60,6 +62,22 @@ public class Arena {
 
     public void setPos2(Location pos2) {
         this.pos2 = pos2;
+    }
+
+    public Location getLobby() {
+        return lobby;
+    }
+
+    public void setLobby(Location lobby) {
+        this.lobby = lobby;
+    }
+
+    public Location getSpectator() {
+        return spectator;
+    }
+
+    public void setSpectator(Location spectator) {
+        this.spectator = spectator;
     }
 
     public boolean isPlayerInArena(Player player) {

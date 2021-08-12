@@ -7,10 +7,9 @@ import java.util.ArrayList;
 public class GameManager {
     private Location pos1;
     private Location pos2;
-    private ArrayList<Arena> arenas;
 
     public GameManager() {
-        arenas = new ArrayList<>();
+
     }
 
     public void setPos1(Location pos1) {
@@ -27,17 +26,5 @@ public class GameManager {
 
     public Location getPos2() {
         return pos2;
-    }
-
-    public ArrayList<Arena> getArenas() {
-        return arenas;
-    }
-
-    public void createArena(Arena arena) {
-        arenas.add(arena);
-    }
-
-    public void createGame(Game game) {
-        // Create Game
     }
 }
