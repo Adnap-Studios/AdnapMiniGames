@@ -3,11 +3,13 @@ package com.adnapstudios.adnapminigames.models.utils;
 import com.adnapstudios.adnapminigames.AdnapMiniGames;
 import com.adnapstudios.adnapminigames.models.game.Arena;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DatabaseManager {
     private String host;
@@ -281,5 +283,58 @@ public class DatabaseManager {
 
         Statement statement = connection.createStatement();
         statement.executeUpdate(query);
+    }
+
+    public void setSpawn(Location spawn) throws SQLException {
+        if (getSpawn() != null) {
+            String query = "DELETE FROM `amg_config`";
+
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+        }
+
+        String query = String.format("INSERT INTO `amg_config` " +
+                "(`world`, `spawn_x`, `spawn_y`, `spawn_z`, `spawn_dir_x`, `spawn_dir_y`, `spawn_dir_z`) " +
+                "VALUES ('%s', '%f', '%f', '%f', '%f', '%f', '%f');",
+                Objects.requireNonNull(spawn.getWorld()).getName(),
+                spawn.getX(),
+                spawn.getY(),
+                spawn.getZ(),
+                spawn.getDirection().getX(),
+                spawn.getDirection().getY(),
+                spawn.getDirection().getZ()
+                );
+
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query);
+    }
+
+    public Location getSpawn() throws SQLException {
+        String query = "SELECT * FROM `amg_config`";
+
+        Statement statement = connection.createStatement();
+        ResultSet results = statement.executeQuery(query);
+
+        while (results.next()) {
+            World world = AdnapMiniGames.getPlugin(AdnapMiniGames.class)
+                    .getServer().getWorld(results.getString("world"));
+
+            double spawnX = results.getDouble("spawn_x");
+            double spawnY = results.getDouble("spawn_y");
+            double spawnZ = results.getDouble("spawn_z");
+
+            double spawnDirX = results.getDouble("spawn_dir_x");
+            double spawnDirY = results.getDouble("spawn_dir_y");
+            double spawnDirZ = results.getDouble("spawn_dir_z");
+
+            Location spawn = new Location(world, spawnX, spawnY, spawnZ);
+            Vector direction = new Vector(spawnDirX, spawnDirY, spawnDirZ);
+
+            spawn.setDirection(direction);
+
+            return spawn;
+        }
+
+        return null;
     }
 }

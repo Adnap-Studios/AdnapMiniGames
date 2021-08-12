@@ -16,3 +16,5 @@ commands:
     description: Sets pos2
   arena:
     description: Arena configuration
+  amgspawn:
+    description: Spawnpoint configuration
