@@ -126,6 +126,18 @@ public class DatabaseManager {
             statement = connection.createStatement();
             statement.executeUpdate(config);
 
+            String teams = "CREATE TABLE IF NOT EXIST amg_teams (" +
+                    "id INT NOT NULL," +
+                    "game_id INT NOT NULL," +
+                    "team_name VARCHAR(100) NOT NULL," +
+                    "team_color VARCHAR(30) NOT NULL," +
+                    "team_status VARCHAR(30) NOT NULL," +
+                    "PRIMARY KEY (`id`)" +
+                    ");";
+
+            statement = connection.createStatement();
+            statement.executeUpdate(teams);
+
         } catch (SQLException e) {
             System.out.println(e);
         }
