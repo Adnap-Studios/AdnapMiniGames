@@ -34,7 +34,7 @@ public class DatabaseManager {
 
     public void connect() throws SQLException {
         if (!isConnected()) {
-            String connectionString = String.format("jdbc:mysql://%s:%s/%s", host, port, database);
+            String connectionString = String.format("jdbc:mysql://%s:%s/%s?autoReconnect=true", host, port, database);
             connection = DriverManager.getConnection(connectionString, username, password);
         }
     }
