@@ -2,6 +2,11 @@ package com.adnapstudios.adnapminigames.models.utils;
 
 import com.adnapstudios.adnapminigames.AdnapMiniGames;
 import com.adnapstudios.adnapminigames.models.game.Arena;
+import com.adnapstudios.adnapminigames.models.game.Game;
+import com.adnapstudios.adnapminigames.models.game.GameStatus;
+import com.adnapstudios.adnapminigames.models.game.GameType;
+import com.adnapstudios.adnapminigames.models.team.Team;
+import com.adnapstudios.adnapminigames.models.team.TeamStatus;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -90,6 +95,8 @@ public class DatabaseManager {
                     "arena_id INT NOT NULL," +
                     "game_type VARCHAR(100) NOT NULL," +
                     "game_status VARCHAR(100) NOT NULL," +
+                    "max_teams INT NOT NULL," +
+                    "team_size INT NOT NULL," +
                     "PRIMARY KEY (id)" +
                     ");";
 
@@ -117,7 +124,7 @@ public class DatabaseManager {
             statement = connection.createStatement();
             statement.executeUpdate(players);
 
-            String config = "CREATE TABLE IF NOT EXISTS NOT amg_config (" +
+            String config = "CREATE TABLE IF NOT EXISTS amg_config (" +
                     "world VARCHAR(100) NOT NULL," +
                     "spawn_x FLOAT NOT NULL," +
                     "spawn_y FLOAT NOT NULL," +
@@ -131,8 +138,8 @@ public class DatabaseManager {
             statement = connection.createStatement();
             statement.executeUpdate(config);
 
-            String teams = "CREATE TABLE IF NOT EXIST amg_teams (" +
-                    "id INT NOT NULL," +
+            String teams = "CREATE TABLE IF NOT EXISTS amg_teams (" +
+                    "id INT NOT NULL AUTO_INCREMENT," +
                     "game_id INT NOT NULL," +
                     "team_name VARCHAR(100) NOT NULL," +
                     "team_color VARCHAR(30) NOT NULL," +
@@ -217,6 +224,20 @@ public class DatabaseManager {
 
         for (Arena arena : arenas) {
             if (arena.getName().equalsIgnoreCase(arenaName)) {
+                return arena;
+            }
+        }
+
+        return null;
+    }
+
+    public Arena getArenaById(int arenaId) throws SQLException {
+        ArrayList<Arena> arenas = getAllArenas();
+
+        if (arenas == null || arenas.size() == 0) return null;
+
+        for (Arena arena : arenas) {
+            if (arena.getId() == arenaId) {
                 return arena;
             }
         }
@@ -336,5 +357,104 @@ public class DatabaseManager {
         }
 
         return null;
+    }
+
+    public void createGame(Game game) throws SQLException {
+        String query = String.format("INSERT INTO `amg_games` " +
+                "(`id`, `arena_id`, `game_type`, `game_status`, `max_teams`, `team_size`) " +
+                "VALUES (NULL, '%d', '%s', '%s', '%d', '%d');",
+                game.getArena().getId(),
+                game.getGameType(),
+                game.getGameStatus(),
+                game.getMaxTeams(),
+                game.getTeamSize());
+
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query);
+    }
+
+    public ArrayList<Game> getAllGames() throws SQLException {
+        String query = "SELECT * FROM `amg_games`";
+
+        Statement statement = connection.createStatement();
+        ResultSet results = statement.executeQuery(query);
+
+        ArrayList<Game> games = new ArrayList<>();
+
+        while (results.next()) {
+            Game game = new Game();
+            game.setId(results.getInt("id"));
+            game.setArena(getArenaById(results.getInt("arena_id")));
+            game.setGameType(GameType.valueOf(results.getString("game_type")));
+            game.setGameStatus(GameStatus.valueOf(results.getString("game_status")));
+            game.setMaxTeams(results.getInt("max_teams"));
+            game.setTeamSize(results.getInt("team_size"));
+
+            games.add(game);
+        }
+
+        return games;
+    }
+
+    public void createTeam(Team team) throws SQLException {
+        String query = String.format("INSERT INTO `amg_teams` " +
+                "(`id`, `game_id`, `team_name`, `team_color`, `team_status`) " +
+                "VALUES (NULL, '%d', '%s', '%s', '%s');",
+                team.getGameId(),
+                team.getName(),
+                team.getColor(),
+                team.getStatus());
+
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query);
+    }
+
+    public Game getGameByArenaName(String arenaName) throws SQLException {
+        ArrayList<Game> games = getAllGames();
+
+        if (games == null || games.size() == 0) return null;
+
+        for (Game game : games) {
+            if (game.getArena().getName().equalsIgnoreCase(arenaName)) {
+                return game;
+            }
+        }
+
+        return null;
+    }
+
+    public ArrayList<Team> getAllTeams() throws SQLException {
+        String query = "SELECT * FROM `amg_teams`";
+
+        Statement statement = connection.createStatement();
+        ResultSet results = statement.executeQuery(query);
+
+        ArrayList<Team> teams = new ArrayList<>();
+
+        while (results.next()) {
+            Team team = new Team();
+            team.setId(results.getInt("id"));
+            team.setGameId(results.getInt("game_id"));
+            team.setColor(results.getString("team_color"));
+            team.setStatus(TeamStatus.valueOf(results.getString("team_status")));
+            team.setName(results.getString("name"));
+
+            teams.add(team);
+        }
+
+        return teams;
+    }
+
+    public ArrayList<Team> getAllTeamsFromGame(Game game) throws SQLException {
+        ArrayList<Team> allTeams = getAllTeams();
+        ArrayList<Team> teams = new ArrayList<>();
+
+        for (Team team : allTeams) {
+            if (team.getGameId() == game.getId()) {
+                teams.add(team);
+            }
+        }
+
+        return teams;
     }
 }

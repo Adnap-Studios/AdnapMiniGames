@@ -51,6 +51,8 @@ public class AdnapMiniGames extends JavaPlugin {
         getCommand("pos2").setExecutor(new Pos2Command());
         getCommand("arena").setExecutor(new ArenaCommand());
         getCommand("amgspawn").setExecutor(new SpawnCommand());
+        getCommand("game").setExecutor(new GameCommand());
+        getCommand("team").setExecutor(new TeamCommand());
 
 
         // Plugin Enabled

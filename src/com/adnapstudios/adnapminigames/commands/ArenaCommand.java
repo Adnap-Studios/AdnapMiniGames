@@ -43,13 +43,12 @@ public class ArenaCommand implements CommandExecutor {
             try {
                 AdnapMiniGames.databaseManager.createArena(arena);
                 commandSender.sendMessage("Arena " + arena.getName() + " is created and saved!");
+                return true;
 
             } catch (SQLException e) {
                 commandSender.sendMessage(e.getMessage());
                 return false;
             }
-
-            return true;
         }
 
         if (commandParameter.equalsIgnoreCase("set")) {

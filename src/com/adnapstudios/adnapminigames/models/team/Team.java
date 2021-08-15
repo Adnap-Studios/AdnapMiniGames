@@ -10,15 +10,19 @@ public class Team {
     private int id;
     private int gameId;
     private String name;
-    private Color color;
+    private String color;
     private TeamStatus status;
     private ArrayList<Player> players;
     private boolean canRespawn = false;
 
-    public Team(String name, Color color, ArrayList<Player> players) {
+    public Team(String name, String color, ArrayList<Player> players) {
         this.name = name;
         this.color = color;
         this.players = players;
+    }
+
+    public Team() {
+
     }
 
     public int getId() {
@@ -45,11 +49,11 @@ public class Team {
         this.name = name;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
